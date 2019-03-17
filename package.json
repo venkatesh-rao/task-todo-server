@@ -5,8 +5,17 @@
   "repository": "https://github.com/venkatesh-rao/task-todo-server.git",
   "author": "venkatesh-rao <venkatvr897@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon -x ts-node src/index.ts"
+  },
   "dependencies": {
+    "dotenv": "^7.0.0",
+    "graphql-yoga": "^1.17.4",
     "ts-node": "^8.0.3",
     "typescript": "^3.3.3333"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.0.7",
+    "nodemon": "^1.18.10"
   }
 }
