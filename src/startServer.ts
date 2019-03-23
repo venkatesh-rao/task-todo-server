@@ -1,12 +1,37 @@
 import 'dotenv/config'
 import * as session from 'express-session'
 import { GraphQLServer } from 'graphql-yoga'
+import * as mongoose from 'mongoose' // connector to connect to mongodb
 import db from './models'
 import resolvers from './resolvers'
 
-const SESSION_SECRET = 'ajslkjalksjdfkl'
-
 export const startServer = async () => {
+  // connect to remote mongodb (Mongodb Atlas)
+  mongoose.connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${
+      process.env.MONGO_PASSWORD
+    }@cluster0-hekgs.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`,
+    { useCreateIndex: true, useNewUrlParser: true },
+  )
+
+  // create mongo connection to track db connection status
+  const mongo = mongoose.connection
+
+  // log on connection error
+  mongo.on('error', error => {
+    console.error('mongo: ' + error.name)
+  })
+
+  // log on successful connection
+  mongo.on('connected', () => {
+    console.log('mongo: Connected')
+  })
+
+  // log on disconnection
+  mongo.on('disconnected', () => {
+    console.warn('mongo: Disconnected')
+  })
+
   const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
@@ -23,7 +48,7 @@ export const startServer = async () => {
     session({
       name: 'qid',
       proxy: true,
-      secret: process.env.SESSION_SECRET || SESSION_SECRET,
+      secret: process.env.SESSION_SECRET || '',
       resave: false,
       saveUninitialized: false,
       cookie: {
