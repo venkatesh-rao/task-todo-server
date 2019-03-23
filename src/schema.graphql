@@ -1,7 +1,20 @@
+type User {
+  name: String!
+  username: String!
+  email: String!
+  userRole: String!
+  resetToken: String
+  resetTokenExpiry: String
+  profilePic: String
+  todos: [String!]
+}
+
 type Query {
-  hello: String!
+  isLoggedIn: Boolean!
+  isAdminLoggedIn: Boolean!
 }
 
 type Mutation {
-  say: String!
+  register(name: String!, username: String!, email: String!, userRole: String, password: String!): User!
+  login(emailOrUsername: String!, password: String!): User!
 }

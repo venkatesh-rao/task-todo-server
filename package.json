@@ -9,6 +9,7 @@
     "start": "nodemon -x ts-node src/index.ts"
   },
   "dependencies": {
+    "argon2": "^0.21.0",
     "dotenv": "^7.0.0",
     "express-session": "^1.15.6",
     "graphql-yoga": "^1.17.4",
